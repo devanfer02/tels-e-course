@@ -55,10 +55,10 @@
     @if($course->userEnrollDetails)
     <div class="tw-mb-1 tw-text-base tw-font-medium dark:text-white tw-flex tw-justify-between tw-mx-2">
       <span>Your Progress</span>
-      <span>{{ $course->userEnrollDetails->progress ?? 0 }} %</span>
+      <span>0 %</span>
     </div>
     <div class="tw-w-full tw-bg-gray-200 tw-rounded-full tw-h-2.5 tw-mb-4 dark:bg-gray-700">
-      <div class="tw-bg-blue-600 tw-h-2.5 tw-rounded-full dark:bg-blue-500" style="width: {{$course->userEnrollDetails->progress ?? 0 }}%"></div>
+      <div class="tw-bg-blue-600 tw-h-2.5 tw-rounded-full dark:bg-blue-500" style="width: 0%"></div>
     </div>
     @endif
     <x-alert />
