@@ -16,7 +16,7 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next, ...$role): Response
     {
-        $authorizeUser = contains("User", $role);
+        $authorizeUser = $this->contains("User", $role);
 
         // Periksa apakah pengguna terotentikasi
         $user = Auth::guard('web')->user();
