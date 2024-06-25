@@ -1,0 +1,113 @@
+Project MPSB {
+  database_type: 'MySQL'
+  Note: 'MPSB Database Schema'
+}
+
+Table users {
+  id uuid [primary key]
+  fullname varchar(255)
+  email varchar(255)
+  password varchar(255)
+  role uuid [ref: > roles.id]
+}
+
+Table roles {
+  id uuid [primary key]
+  role_name varchar(100) [unique, not null]
+}
+
+Table majors {
+  id integer [pk, increment]
+  major_name varchar(150) [primary key]
+}
+
+Table classes {
+  id integer [pk, increment]
+  class_name varchar(100) [unique]
+}
+
+Table curriculums {
+  id integer [pk, increment]
+  curriculum_name varchar(150) [unique]
+}
+
+Table evaluation_categories {
+  id integer [primary key, increment]
+  category_name varchar(100)
+}
+
+Table question_categories {
+  id integer [primary key, increment]
+  category_name varchar(100)
+}
+
+Table courses {
+  id uuid [primary key]
+  class_id integer [ref: > classes.id]
+  major_id integer [ref: > majors.id]
+  curriculum_id integer [ref: > curriculums.id]
+  course_name varchar(255) [unique]
+  course_description TEXT
+  media_link varchar(255)
+  video_link varchar(255)
+}
+
+Table subcourses {
+  id uuid [primary key]
+  courses_id uuid [ref: > courses.id]
+  subcourse_name varchar(200)
+}
+
+Table subcourse_contents {
+  id integer [primary key]
+  subcourse_id uuid [ref: > subcourses.id]
+  order int
+  media_link varchar(250)
+  content_text LONGTEXT
+}
+
+Table evaluations {
+  id uuid [primary key]
+  subcourse_id uuid [ref: - subcourses.id]
+  category_id integer [ref: > evaluation_categories.id]
+}
+
+Table questions {
+  id uuid [primary key]
+  category_id integer [ref: > question_categories.id]
+  evaluation_id uuid [ref: > evaluations.id]
+  description text
+}
+
+Table options {
+  id uuid [primary key]
+  question_id uuid [ref: > questions.id]
+}
+
+Table pilganda {
+  id uuid [primary key]
+  option_id uuid [ref: - options.id]
+  option_value varchar
+  correct boolean
+}
+
+Table dragndrop {
+  id uuid [primary key]
+  option_id uuid [ref: - options.id]
+  option_key varchar
+  option_value varchar
+}
+
+Table user_subcourse_details {
+  user_id uuid [ref: > users.id]
+  subcourse_id uuid [ref: > subcourses.id]
+  done_at TIMESTAMP
+  last_visit_at TIMESTAMP
+  evalutaion_grade double
+}
+
+Table user_enroll_details {
+  user_id uuid [ref: > users.id]
+  course_id uuid [ref: > courses.id]
+  progress double
+}
