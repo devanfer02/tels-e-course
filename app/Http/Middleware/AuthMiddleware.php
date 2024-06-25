@@ -16,9 +16,14 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next, ...$role): Response
     {
+        $authorizeUser = contains("User", $role);
+
         // Periksa apakah pengguna terotentikasi
         $user = Auth::guard('web')->user();
         if (!$user) {
+            if($authorizeUser) {
+                return redirect('/login');
+            }
             return redirect('/auth/login');
         }
 
@@ -31,6 +36,20 @@ class AuthMiddleware
             }
         }
 
+        if($authorizeUser) {
+            return redirect('/login');
+        }
         return redirect('/auth/login');
+    }
+
+    public function contains($search, ...$role): bool
+    {
+        foreach ($role as $roles) {
+            if ($role === $search) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
