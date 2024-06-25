@@ -14,9 +14,11 @@ class AuthMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, ...$role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        $authorizeUser = $this->contains("User", $role);
+        $authorizeUser = $this->contains("User", ...$roles);
+
+
 
         // Periksa apakah pengguna terotentikasi
         $user = Auth::guard('web')->user();
@@ -29,9 +31,8 @@ class AuthMiddleware
 
         $user = $user->load('role');
 
-        foreach ($role as $roles) {
-            if ($user->role->role_name == $roles) {
-                // return redirect('/');
+        foreach ($roles as $role) {
+            if ($user->role->role_name == $role) {
                 return $next($request);
             }
         }
@@ -42,9 +43,10 @@ class AuthMiddleware
         return redirect('/auth/login');
     }
 
-    public function contains($search, ...$role): bool
+    public function contains($search, ...$roles): bool
     {
-        foreach ($role as $roles) {
+        foreach ($roles as $role) {
+
             if ($role === $search) {
                 return true;
             }
