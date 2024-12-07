@@ -12,6 +12,12 @@ An online e-course web platform with rich vocatuinal school material contents ma
 ![img](./public/Screenshot%20from%202024-12-07%2017-58-24.png)
 ![img](./public/Screenshot%20from%202024-12-07%2017-58-40.png)
 
+## Database Design
+
+![img](./public/MPSB%20DB%20SCHEMA.png)
+
+
+
 ## 🛠️ Tech Stacks
 
 <table border="1">
